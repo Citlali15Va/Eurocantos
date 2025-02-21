@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel a Pantalla Completa</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; overflow: hidden; }
+        .carousel-container { position: relative; width: 100vw; height: 100vh; }
+        .carousel-slide { display: flex; width: 300%; height: 100%; transition: transform 1s ease-in-out; }
+        .carousel-slide img { width: 100vw; height: 100vh; object-fit: cover; }
+        .prev, .next {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5); color: white; border: none;
+            padding: 10px 20px; cursor: pointer; font-size: 20px;
+        }
+        .prev { left: 10px; }
+        .next { right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="carousel-slide">
+            <img src="https://lh3.googleusercontent.com/d/1RGtZGDdJqSbrVNvK7FGRKLh8f5fpZosb" alt="Imagen 1">
+            <img src="https://lh3.googleusercontent.com/d/1gNrBY5P7RrGVmp8oBeQMK1Tk19WVBJc7" alt="Imagen 2">
+            <img src="https://lh3.googleusercontent.com/d/13YbcqjrvRTd0M1xqC7RfQDYaircbChTu" alt="Imagen 3">
+        </div>
+        <button class="prev" onclick="manualSlide(-1)">&#10094;</button>
+        <button class="next" onclick="manualSlide(1)">&#10095;</button>
+    </div>
+    <script>
+        let index = 0;
+        const slides = document.querySelector(".carousel-slide");
+        let autoSlide = setInterval(() => moveSlide(1), 5000); // Cambio automático cada 5 segundos
+
+        function moveSlide(direction) {
+            const totalSlides = slides.children.length;
+            index = (index + direction + totalSlides) % totalSlides;
+            slides.style.transform = `translateX(-${index * 100}vw)`;
+        }
+
+        function manualSlide(direction) {
+            clearInterval(autoSlide); // Detiene el desplazamiento automático
+            moveSlide(direction);
+            autoSlide = setInterval(() => moveSlide(1), 5000); // Reinicia el desplazamiento automático después de interacción
+        }
+    </script>
+</body>
+</html>
